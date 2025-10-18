@@ -1,0 +1,77 @@
+{
+  "restaurants": [
+    {
+      "name": "McDonald's®",
+      "items": [
+        { "name": "Big Mac®", "price": 7.89, "calories": 580 },
+        {
+          "name": "Quarter Pounder with Cheese®",
+          "price": 8.49,
+          "calories": 520
+        },
+        {
+          "name": "Double Quarter Pounder with Cheese®",
+          "price": 9.89,
+          "calories": 740
+        },
+        { "name": "Egg McMuffin®", "price": 7.09, "calories": 310 },
+        { "name": "McCrispy®", "price": 6.99, "calories": 470 },
+        { "name": "Deluxe McCrispy®", "price": 7.99, "calories": 530 },
+        { "name": "McChicken®", "price": 4.49, "calories": 390 },
+        { "name": "World Famous Fries®", "price": 4.79, "calories": 320 },
+        { "name": "6 piece McNuggets®", "price": 6.19, "calories": 250 },
+        { "name": "Vanilla Cone", "price": 1.29, "calories": 200 }
+      ]
+    },
+    {
+      "name": "Jack in the Box®",
+      "items": [
+        { "name": "Jumbo Jack®", "price": 5.99, "calories": 520 },
+        { "name": "Double Jack®", "price": 8.59, "calories": 830 },
+        {
+          "name": "Jack's Spicy Chicken Sandwich®",
+          "price": 8.19,
+          "calories": 690
+        },
+        { "name": "Cluck Sandwich®", "price": 7.99, "calories": 700 },
+        {
+          "name": "Homestyle Ranch Chicken Club®",
+          "price": 9.29,
+          "calories": 680
+        },
+        { "name": "Grilled Jack Wrap®", "price": 3.29, "calories": 290 },
+        { "name": "Tacos (2 pack)", "price": 1.49, "calories": 340 },
+        { "name": "8 piece Chicken Nuggets", "price": 5.29, "calories": 380 },
+        { "name": "French Fries (Medium)", "price": 3.99, "calories": 430 },
+        { "name": "Curly Fries (Medium)", "price": 4.39, "calories": 430 }
+      ]
+    },
+    {
+      "name": "Taco Bell®",
+      "items": [
+        { "name": "Soft Taco", "price": 2.19, "calories": 180 },
+        { "name": "Crunchy Taco", "price": 2.19, "calories": 170 },
+        {
+          "name": "Nacho Cheese Doritos® Locos Taco",
+          "price": 2.99,
+          "calories": 170
+        },
+        {
+          "name": "Nacho Cheese Doritos® Locos Taco Supreme®",
+          "price": 3.99,
+          "calories": 190
+        },
+        { "name": "Crunchwrap Supreme®", "price": 7.19, "calories": 530 },
+        { "name": "Chicken Quesadilla", "price": 7.39, "calories": 510 },
+        {
+          "name": "Cantina Chicken Soft Taco®",
+          "price": 3.29,
+          "calories": 260
+        },
+        { "name": "Beefy 5-Layer Burrito", "price": 5.19, "calories": 490 },
+        { "name": "Nacho Fries", "price": 2.49, "calories": 330 },
+        { "name": "Cinnanom Twists", "price": 1.99, "calories": 170 }
+      ]
+    }
+  ]
+}
