@@ -22,6 +22,7 @@ if acc_selection == "r":
   if user_selection == "a":
     restaurant = {}
     restaurant["name"] = input("Enter a restaurant name: ")
+    restaurant["items"] = []
   else:
     print("Here are all the currently created restaurants:")
     for i, res in enumerate(user_res["restaurants"]):
@@ -61,6 +62,53 @@ if acc_selection == "r":
         else:
           break
       restaurant = user_res["restaurants"][mod_res]
-      print(restaurant["name"])
+    while True:
+      if len(restaurant["items"]) > 0:
+        user_selection = input("Would you like to add (a) or delete (d) an item from the restaurant? ").lower()
+        valid_ans = ["a","d"]
+        while user_selection not in valid_ans:
+          user_selection = input("Please enter a valid input ").lower()
+      else:
+        user_selection = "a"
+      if user_selection == "a":
+        item_name = input("What is the name of the food item? ")
+        while True:
+          try:
+            item_price = int(input("How much does this cost? "))
+          except ValueError:
+            print("Invalid number")
+          if item_price:
+            break
+        while True:
+          try:
+            item_price = int(input("How much does this cost? "))
+          except ValueError:
+            print("Invalid number")
+          if item_price:
+            break
+      else:
+        for i, item in restaurant["items"]:
+          print(f"{i+1}. {item.name}")
+        try:
+          del_res = int(input("Please select an item to remove: ")) - 1
+        except ValueError:
+          print("Invalid number")
+          del_res = -1
+        while True:
+          if del_res < 0 or del_res >= len(restaurant["items"]):
+            try:
+              del_res = int(input("Please select a valid item: ")) - 1
+            except ValueError:
+              print("Invalid number")
+          else:
+            break
+        restaurant["items"].pop(i)
+      user_selection = input("Would you like to make another restaurant change? (y/n)").lower
+      valid_ans = ["y","n"]
+      if user_selection == "y":
+        break
+    sys.exit("Thank you for using this program! Good bye!")
+    # Still needs testing
+
 else:
   print("customer")
