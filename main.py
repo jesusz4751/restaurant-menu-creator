@@ -1,22 +1,23 @@
 import json
 import sys
 
-with open("data/default_restaurants.json", "r") as file:
+with open("data/default_restaurants.json", "r", encoding="utf-8") as file:
   default_res = json.load(file)
-with open("data/user_restaurants.json", "r") as file:
+with open("data/user_restaurants.json", "r", encoding="utf-8") as file:
   user_res = json.load(file)
 print("Hello, and welcome to the restaurant menu program! This program allows you to view restaurants as well as update your own restaurant menu.")
-acc_selection = input("To start, please indicate if you are a restaurant owner (r) or a customer (c): ").lower()
+acc_selection = input("To start, please indicate if you are a restaurant owner (r) or a customer (c): ").lower().strip()
 valid_ans = ["r","c"]
 while acc_selection not in valid_ans:
-  acc_selection = input("Please enter a valid response: ").lower()
+  acc_selection = input("Please enter a valid response: ").lower().strip()
+# Start of restaurant code
 if acc_selection == "r":
   print(f"You currently have {len(user_res['restaurants'])} custom restaurants." )
   if len(user_res["restaurants"]) > 0:
-    user_selection = input("Would you like to add (a), modify (m), or delete (d) an existing restaurant: ").lower()
+    user_selection = input("Would you like to add (a), modify (m), or delete (d) an existing restaurant: ").lower().strip()
     valid_ans = ["a", "m", "d"]
     while user_selection not in valid_ans:
-      user_selection = input("Please enter a valid response: ").lower()
+      user_selection = input("Please enter a valid response: ").lower().strip()
   else:
     user_selection = "a"
   if user_selection == "a":
@@ -64,10 +65,10 @@ if acc_selection == "r":
       restaurant = user_res["restaurants"][mod_res]
   while True:
     if len(restaurant["items"]) > 0:
-      user_selection = input("Would you like to add (a) or delete (d) an item from the restaurant? ").lower()
-      valid_ans = ["a","d"]
+      user_selection = input("Would you like to view the menu (v), add (a), or delete (d) an item from the restaurant? ").lower().strip()
+      valid_ans = ["v","a","d"]
       while user_selection not in valid_ans:
-        user_selection = input("Please enter a valid input ").lower()
+        user_selection = input("Please enter a valid input ").lower().strip()
     else:
       user_selection = "a"
     if user_selection == "a":
@@ -87,6 +88,9 @@ if acc_selection == "r":
           print("Invalid number")
           continue
       restaurant["items"].append({"name": item_name, "price": item_price, "calories": item_calories})
+    elif user_res == "v":
+      for i, item in enumerate(restaurant["items"]):
+        print(f"{i+1}. Name: {item['name']}, Calories: {item['calories']}, Price: ${item['price']:.2f}")
     else:
       for i, item in enumerate(restaurant["items"]):
         print(f"{i+1}. {item['name']}")
@@ -113,14 +117,37 @@ if acc_selection == "r":
     # If not, add to array as new restaurant
     else:
         user_res["restaurants"].append(restaurant)
-    user_selection = input("Would you like to make another restaurant change? (y/n) ").lower()
+    user_selection = input("Would you like to make another restaurant change? (y/n) ").lower().strip()
     valid_ans = ["y","n"]
     while user_selection not in valid_ans:
-      user_selection = input("please enter a valid response: ").lower()
+      user_selection = input("please enter a valid response: ").lower().strip()
     if user_selection == "n":
       with open("data/user_restaurants.json", "w") as file:
         json.dump(user_res,file,indent=2)
       sys.exit("Thank you for using the progam, we hope to see you again soon!")
-else:
-  # Future work
-  print("customer")
+else: # Start of customer code
+  restaurant_arr = default_res["restaurants"] + user_res["restaurants"]
+  print("Here are all the restaurants available: ")
+  for i, restaurant in enumerate(restaurant_arr):
+    print(f"{i+1}. {restaurant['name']}")
+  while True:
+    try:
+      user_res = int(input("please select a restaurant to view: "))-1
+      if user_res < 0 or user_res >= len(restaurant_arr):
+        print("Invalid restaurant")
+        continue
+      restaurant = restaurant_arr[user_res]
+      if len(restaurant["items"]) == 0:
+        print("This restaurant has no items, please select another one.")
+        continue
+      break
+    except ValueError:
+      print("Invalid number")
+      continue
+  user_res = input("Would you like to view the menu (v), create a plate (c), or exit (e)? ").lower().strip()
+  valid_ans = ["v", "c", "e"]
+  while user_res not in valid_ans:
+    user_res = input("Please select a valid answer").lower().strip()
+  if user_res == "v":
+    for i, item in enumerate(restaurant["items"]):
+      print(f"{i+1}. Name: {item['name']}, Calories: {item['calories']}, Price: ${item['price']:.2f}")
