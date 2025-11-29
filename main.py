@@ -1,6 +1,7 @@
 import json
 import sys
 
+# Open appropriate json files
 with open("data/default_restaurants.json", "r", encoding="utf-8") as file:
   default_res = json.load(file)
 with open("data/user_restaurants.json", "r", encoding="utf-8") as file:
@@ -8,6 +9,7 @@ with open("data/user_restaurants.json", "r", encoding="utf-8") as file:
 print("Hello, and welcome to the restaurant menu program! This program allows you to view restaurants as well as update your own restaurant menu.")
 acc_selection = input("To start, please indicate if you are a restaurant owner (r) or a customer (c): ").lower().strip()
 valid_ans = ["r","c"]
+# Make sure user inputs valid answer
 while acc_selection not in valid_ans:
   acc_selection = input("Please enter a valid response: ").lower().strip()
 # Start of restaurant code
@@ -18,6 +20,7 @@ if acc_selection == "r":
     valid_ans = ["a", "m", "d"]
     while user_selection not in valid_ans:
       user_selection = input("Please enter a valid response: ").lower().strip()
+  # If there are no restaurants, automatically create a new one
   else:
     user_selection = "a"
   if user_selection == "a":
@@ -36,6 +39,7 @@ if acc_selection == "r":
         print("Invalid number")
         del_res = -1
       while True:
+        # Repeat until valid input is entered
         if del_res < 0 or del_res >= len(user_res["restaurants"]):
           try:
             del_res = int(input("Please select a valid restaurant: ")) - 1
@@ -43,6 +47,7 @@ if acc_selection == "r":
             print("Invalid number")
         else:
           break
+      # Save result on json file
       user_res["restaurants"].pop(del_res)
       with open("data/user_restaurants.json", "w") as file:
         json.dump(user_res,file,indent=2)
@@ -63,12 +68,15 @@ if acc_selection == "r":
         else:
           break
       restaurant = user_res["restaurants"][mod_res]
+  # User has selected either add or modify restaurant
   while True:
+    # If there is more than one item in restaurant, give options to user
     if len(restaurant["items"]) > 0:
       user_selection = input("Would you like to view the menu (v), add (a), or delete (d) an item from the restaurant? ").lower().strip()
       valid_ans = ["v","a","d"]
       while user_selection not in valid_ans:
         user_selection = input("Please enter a valid input ").lower().strip()
+    # If there are no items, default to add item
     else:
       user_selection = "a"
     if user_selection == "a":
@@ -88,7 +96,8 @@ if acc_selection == "r":
           print("Invalid number")
           continue
       restaurant["items"].append({"name": item_name, "price": item_price, "calories": item_calories})
-    elif user_res == "v":
+    # Print every item in the menu
+    elif user_selection == "v":
       for i, item in enumerate(restaurant["items"]):
         print(f"{i+1}. Name: {item['name']}, Calories: {item['calories']}, Price: ${item['price']:.2f}")
     else:
@@ -100,6 +109,7 @@ if acc_selection == "r":
         print("Invalid number")
         del_res = -1
       while True:
+        # Ensure valid input
         if del_res < 0 or del_res >= len(restaurant["items"]):
           try:
             del_res = int(input("Please select a valid item: ")) - 1
@@ -131,6 +141,7 @@ else: # Start of customer code
   for i, restaurant in enumerate(restaurant_arr):
     print(f"{i+1}. {restaurant['name']}")
   while True:
+    # Ensure valid input
     try:
       user_selection = int(input("please select a restaurant to view: "))-1
       if user_selection < 0 or user_selection >= len(restaurant_arr):
@@ -150,9 +161,11 @@ else: # Start of customer code
     valid_ans = ["v", "c", "e"]
     while user_selection not in valid_ans:
       user_selection = input("Please select a valid answer").lower().strip()
+    # View menu
     if user_selection == "v":
       for i, item in enumerate(restaurant["items"]):
         print(f"{i+1}. Name: {item['name']}, Calories: {item['calories']}, Price: ${item['price']:.2f}")
+    # Create plate
     elif user_selection == "c":
       plate = []
       while True:
@@ -174,6 +187,7 @@ else: # Start of customer code
           user_selection = input("Please select a valid option. ").lower().strip()
         if user_selection == "n":
           break
+      # Print out results of plate to user
       print("Here are the items on your plate:")
       total_cost = 0.0
       total_calories = 0
@@ -181,6 +195,7 @@ else: # Start of customer code
         print(f"{i+1}. {item['name']}")
         total_cost += item['price']
         total_calories += item['calories']
-      print(f"Your total cost is ${total_cost} with {total_calories} calories.")
+      print(f"Your total cost is ${total_cost:.2f} with {total_calories} calories.")
+    # Exit program
     else:
       sys.exit("Thank you for using the progam, we hope to see you again soon!")
