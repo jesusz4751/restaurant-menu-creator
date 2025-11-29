@@ -132,11 +132,11 @@ else: # Start of customer code
     print(f"{i+1}. {restaurant['name']}")
   while True:
     try:
-      user_res = int(input("please select a restaurant to view: "))-1
-      if user_res < 0 or user_res >= len(restaurant_arr):
+      user_selection = int(input("please select a restaurant to view: "))-1
+      if user_selection < 0 or user_selection >= len(restaurant_arr):
         print("Invalid restaurant")
         continue
-      restaurant = restaurant_arr[user_res]
+      restaurant = restaurant_arr[user_selection]
       if len(restaurant["items"]) == 0:
         print("This restaurant has no items, please select another one.")
         continue
@@ -144,10 +144,43 @@ else: # Start of customer code
     except ValueError:
       print("Invalid number")
       continue
-  user_res = input("Would you like to view the menu (v), create a plate (c), or exit (e)? ").lower().strip()
-  valid_ans = ["v", "c", "e"]
-  while user_res not in valid_ans:
-    user_res = input("Please select a valid answer").lower().strip()
-  if user_res == "v":
-    for i, item in enumerate(restaurant["items"]):
-      print(f"{i+1}. Name: {item['name']}, Calories: {item['calories']}, Price: ${item['price']:.2f}")
+  while True:
+    print(f"Current restaurant: {restaurant['name']}")
+    user_selection = input("Would you like to view the menu (v), create a plate (c), or exit (e)? ").lower().strip()
+    valid_ans = ["v", "c", "e"]
+    while user_selection not in valid_ans:
+      user_selection = input("Please select a valid answer").lower().strip()
+    if user_selection == "v":
+      for i, item in enumerate(restaurant["items"]):
+        print(f"{i+1}. Name: {item['name']}, Calories: {item['calories']}, Price: ${item['price']:.2f}")
+    elif user_selection == "c":
+      plate = []
+      while True:
+        print("Here are all of the available dishes: ")
+        for i, item in enumerate(restaurant["items"]):
+          print(f"{i+1}. Name: {item['name']}, Calories: {item['calories']}, Price: ${item['price']:.2f}")
+        try:
+          user_selection = int(input("Please select a food item to add to your plate: "))-1
+          if user_selection < 0 or user_selection >= len(restaurant['items']):
+            print("Invalid number")
+            continue
+        except ValueError:
+          print("Invalid number")
+          continue
+        plate.append(restaurant["items"][user_selection])
+        user_selection = input("Would you like to add another item to your plate? (y/n) ").lower().strip()
+        valid_ans = ["y", "n"]
+        while user_selection not in valid_ans:
+          user_selection = input("Please select a valid option. ").lower().strip()
+        if user_selection == "n":
+          break
+      print("Here are the items on your plate:")
+      total_cost = 0.0
+      total_calories = 0
+      for i, item in enumerate(plate):
+        print(f"{i+1}. {item['name']}")
+        total_cost += item['price']
+        total_calories += item['calories']
+      print(f"Your total cost is ${total_cost} with {total_calories} calories.")
+    else:
+      sys.exit("Thank you for using the progam, we hope to see you again soon!")
