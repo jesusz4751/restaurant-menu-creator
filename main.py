@@ -137,6 +137,14 @@ if acc_selection == "r":
       sys.exit("Thank you for using the progam, we hope to see you again soon!")
 else: # Start of customer code
   restaurant_arr = default_res["restaurants"] + user_res["restaurants"]
+  n = len(restaurant_arr)
+  # Bubble sort implemenetation for restaurant names
+  for i in range(n):
+    for j in range(0, n - i - 1):
+      name1 = restaurant_arr[j]["name"].lower()
+      name2 = restaurant_arr[j + 1]["name"].lower()
+      if name1 > name2:
+        restaurant_arr[j], restaurant_arr[j + 1] = restaurant_arr[j + 1], restaurant_arr[j]
   print("Here are all the restaurants available: ")
   for i, restaurant in enumerate(restaurant_arr):
     print(f"{i+1}. {restaurant['name']}")
@@ -157,14 +165,25 @@ else: # Start of customer code
       continue
   while True:
     print(f"Current restaurant: {restaurant['name']}")
-    user_selection = input("Would you like to view the menu (v), create a plate (c), or exit (e)? ").lower().strip()
-    valid_ans = ["v", "c", "e"]
+    user_selection = input("Would you like to view the menu (v), search for an item (s), create a plate (c), or exit (e)? ").lower().strip()
+    valid_ans = ["v", "s", "c", "e"]
     while user_selection not in valid_ans:
       user_selection = input("Please select a valid answer").lower().strip()
     # View menu
     if user_selection == "v":
       for i, item in enumerate(restaurant["items"]):
         print(f"{i+1}. Name: {item['name']}, Calories: {item['calories']}, Price: ${item['price']:.2f}")
+    # Search for an item in menu
+    elif user_selection == "s":
+      user_search = input("Please enter the name of the item you are searching for: ").lower().strip()
+      found = False
+      for item in restaurant["items"]:
+        if user_search in item["name"].lower().strip():
+          print(f"Item found!\nName: {item["name"]}\nCalories: {item["calories"]}\nPrice: {item["price"]}")
+          found = True
+          break
+      if not found:
+        print("Item not found")
     # Create plate
     elif user_selection == "c":
       plate = []
